@@ -8,31 +8,11 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "Reference",
-"class": "GutHookScript",
-"language": "GDScript",
-"path": "res://addons/gut/hook_script.gd"
-}, {
-"base": "Node",
-"class": "GutTest",
-"language": "GDScript",
-"path": "res://addons/gut/test.gd"
-} ]
-_global_script_class_icons={
-"GutHookScript": "",
-"GutTest": ""
-}
-
 [application]
 
-config/name="LD52_godot"
-run/main_scene="res://Scenes/Sprite.tscn"
+config/name="LD52"
+run/main_scene="res://Scenes/Main.tscn"
 config/icon="res://icon.png"
-
-[editor_plugins]
-
-enabled=PoolStringArray( "res://addons/LDtk-Importer/plugin.cfg" )
 
 [gui]
 
@@ -40,8 +20,7 @@ common/drop_mouse_on_gui_input_disabled=true
 
 [mono]
 
-project/assembly_name="LD52_godot"
-debugger_agent/wait_for_debugger=true
+project/assembly_name="LD52"
 
 [physics]
 
