@@ -2,7 +2,12 @@ using Godot;
 public class Player : Node2D
 {
     private PackedScene projectileScene;
-    public override void _Ready() => projectileScene = GD.Load<PackedScene>("res://Scenes/Projectile.tscn");
+    private AnimatedSprite animatedSprite;
+    public override void _Ready()
+    {
+        animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
+        projectileScene = GD.Load<PackedScene>("res://Scenes/Projectile.tscn");
+    }
     public override void _Process(float delta)
     {
         Vector2 moveDirection = new Vector2(0, 0);
@@ -15,8 +20,15 @@ public class Player : Node2D
         if (Input.IsKeyPressed((int)KeyList.D))
             moveDirection.x++;
 
-        Position += moveDirection.Normalized() * 3;
         Rotation = (GetGlobalMousePosition() - GlobalPosition).Angle();
+        if (moveDirection.x == 0 && moveDirection.y == 0)
+        {
+            animatedSprite.Stop();
+            return;
+        }
+
+        Position += moveDirection.Normalized() * 3;
+        animatedSprite.Play("run");
     }
 
     public override void _UnhandledInput(InputEvent @event)
