@@ -14,12 +14,23 @@ public abstract class Projectile : Node2D
 
     public override void _Process(float delta)
     {
-        float moveAmount = delta * 500;
+        float moveAmount = delta * 300;
         Position += Transform.x.Normalized() * moveAmount;
         distanceTravelled += moveAmount;
-        if (distanceTravelled > 10000)
+        if (distanceTravelled > 200)
             QueueFree();
     }
 
-    public void OnCollision(Node collider) => QueueFree();
+    public void OnCollision(Node collider)
+    {
+        if (collider.GetParent() is Woodcutter woodcutter)
+        {
+            QueueFree();
+        }
+
+        if (collider.GetParent() is ActualTree actualTree)
+        {
+            QueueFree();
+        }
+    }
 }
