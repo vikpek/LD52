@@ -8,7 +8,7 @@ namespace LD52.Scripts
         {
             this.data = data;
         }
-        public Vector2 lastKnownSkritekPosition { get; set; }
+        public Vector2 lastKnownSkritekPosition { get; set; } = Vector2.Right;
         public bool IsSkritekHidden { get; set; }
 
         public bool CanSeeSkritek(Vector2 position)

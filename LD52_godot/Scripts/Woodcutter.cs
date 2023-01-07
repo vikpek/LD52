@@ -1,10 +1,15 @@
 using Godot;
 using LD52.Scripts;
-
 public class Woodcutter : Node2D
 {
     private ActualTree IsCutting = null;
     private GameService gameService;
+
+    private Label shout;
+
+    private bool isStunned = false;
+    public bool IsStunned => isStunned;
+
     public void Initialize(GameService gameService)
     {
         this.gameService = gameService;
@@ -14,6 +19,7 @@ public class Woodcutter : Node2D
     public override void _Ready()
     {
         animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
+        shout = GetNode<Label>("Shout");
 
         var area = GetNode<Area2D>("CollisionArea");
         if (area is null)
@@ -27,7 +33,7 @@ public class Woodcutter : Node2D
     {
         if (collider?.GetParent() is ActualTree tree)
         {
-            tree.RegisterWoodcutter();
+            tree.RegisterWoodcutter(this);
             IsCutting = tree;
         }
     }
@@ -36,13 +42,16 @@ public class Woodcutter : Node2D
     {
         if (collider?.GetParent() is ActualTree tree)
         {
-            tree.UnregisterWoodcutter();
+            tree.UnregisterWoodcutter(this);
             IsCutting = null;
         }
     }
 
     public override void _Process(float delta)
     {
+        if (IsStunned)
+            return;
+
         // if sees skritek -> move there
         if (gameService.CanSeeSkritek(GlobalPosition))
         {
@@ -56,9 +65,35 @@ public class Woodcutter : Node2D
             return;
         }
 
-        if(IsCutting == null || IsCutting.CutDown)
+        if (IsCutting == null || IsCutting.CutDown)
+        {
             Position += gameService.GetDirectionToClosestTree(GlobalPosition);
+            Rotation = gameService.GetDirectionToClosestTree(GlobalPosition).Angle();
+        }
 
         // todo: if collides with tree area -> start cuttingds
+    }
+
+    private Timer timer;
+    public void HitByProjectile()
+    {
+        isStunned = true;
+        shout.Text = "zzZZzz";
+        timer = new Timer();
+        animatedSprite.Stop();
+        AddChild(timer);
+        timer.Autostart = true;
+        timer.WaitTime = GameConfig.StunDuration;
+        timer.Connect("timeout", this, "OnTimeout");
+        timer.Start();
+    }
+
+    public void OnTimeout()
+    {
+        isStunned = false;
+        shout.Text = "";
+        timer.Stop();
+        timer.Disconnect("timeout", this, "OnTimeout");
+        timer = null;
     }
 }

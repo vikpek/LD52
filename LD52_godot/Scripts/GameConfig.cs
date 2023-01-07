@@ -8,5 +8,6 @@
         public static readonly int maxConcurrentTrees = 6;
         public static readonly int maxConcurrentBushes = 3;
 
+        public static float StunDuration = 2f;
     }
 }
