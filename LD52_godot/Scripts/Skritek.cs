@@ -2,13 +2,17 @@ using System;
 using Godot;
 public class Skritek : Node2D
 {
+    public event Action<Vector2> OnSkritekMoved = delegate { };
+    public event Action OnSkritekCaught = delegate { };
+    public event Action<bool> OnSkritekHide = delegate { };
+
     private PackedScene projectileScene;
     private AnimatedSprite animatedSprite;
     public override void _Ready()
     {
         animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
         projectileScene = GD.Load<PackedScene>("res://Scenes/Projectile.tscn");
-        
+
         var area = GetNode<Area2D>("CollisionArea");
         if (area is null)
             return;
@@ -21,6 +25,10 @@ public class Skritek : Node2D
     {
         if (collider?.GetParent() is Bush)
             OnSkritekHide(true);
+
+        if (collider?.GetParent() is Woodcutter)
+            OnSkritekCaught();
+
     }
 
     public void OnAreaExit(Node collider)
@@ -29,8 +37,7 @@ public class Skritek : Node2D
             OnSkritekHide(false);
     }
 
-    public event Action<Vector2> OnSkritekMoved = delegate { };
-    public event Action<bool> OnSkritekHide = delegate { };
+
 
     public override void _Process(float delta)
     {

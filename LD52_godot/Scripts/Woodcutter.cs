@@ -1,16 +1,9 @@
 using Godot;
 using LD52.Scripts;
-public enum InternalState
-{
-    Idle,
-    ChasingSkritek,
-    WalkingToTree,
-    CuttingTree,
-    IsConfused
-}
 
 public class Woodcutter : Node2D
 {
+    private ActualTree IsCutting = null;
     private GameService gameService;
     public void Initialize(GameService gameService)
     {
@@ -21,6 +14,31 @@ public class Woodcutter : Node2D
     public override void _Ready()
     {
         animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
+
+        var area = GetNode<Area2D>("CollisionArea");
+        if (area is null)
+            return;
+
+        area.Connect("area_entered", this, "OnAreaEntered");
+        area.Connect("area_exited", this, "OnAreaExit");
+    }
+
+    public void OnAreaEntered(Node collider)
+    {
+        if (collider?.GetParent() is ActualTree tree)
+        {
+            tree.RegisterWoodcutter();
+            IsCutting = tree;
+        }
+    }
+
+    public void OnAreaExit(Node collider)
+    {
+        if (collider?.GetParent() is ActualTree tree)
+        {
+            tree.UnregisterWoodcutter();
+            IsCutting = null;
+        }
     }
 
     public override void _Process(float delta)
@@ -38,7 +56,9 @@ public class Woodcutter : Node2D
             return;
         }
 
-        Position += gameService.GetDirectionToClosestTree(GlobalPosition);
+        if(IsCutting == null || IsCutting.CutDown)
+            Position += gameService.GetDirectionToClosestTree(GlobalPosition);
+
         // todo: if collides with tree area -> start cuttingds
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Godot;
 namespace LD52.Scripts
 {
@@ -6,14 +7,17 @@ namespace LD52.Scripts
     {
         private PackedScene skritekScene;
         private PackedScene woodcutterScene;
-        private PackedScene treeScene;
+        private PackedScene actualTreeScene;
         private PackedScene bushScene;
+        private PackedScene mainScene;
 
         private List<Node2D> spawnTreeNodes = new List<Node2D>();
         private List<Node2D> spawnBushNodes = new List<Node2D>();
 
         private GameService gameService;
         private GameData data;
+
+        public event Action<GameResult> OnGameResult = delegate { };
         public override void _Ready()
         {
             data = new GameData();
@@ -31,14 +35,20 @@ namespace LD52.Scripts
                 spawnBushNodes.Add(spawnNode);
 
 
-            treeScene = GD.Load<PackedScene>("res://Scenes/ActualTree.tscn");
+            actualTreeScene = GD.Load<PackedScene>("res://Scenes/ActualTree.tscn");
             while (data.Trees.Count <= GameConfig.maxConcurrentTrees)
                 SpawnActualTree();
 
             bushScene = GD.Load<PackedScene>("res://Scenes/Bush.tscn");
             while (data.Bushes.Count <= GameConfig.maxConcurrentBushes)
                 SpawnBushes();
+
+            mainScene = GD.Load<PackedScene>("res://Scenes/Main.tscn");
         }
+
+        public override void _Process(float delta) =>
+            data.Trees.RemoveAll(tree => tree.CutDown);
+
         private void SpawnBushes()
         {
             var instance = bushScene.Instance() as Bush;
@@ -48,7 +58,7 @@ namespace LD52.Scripts
         }
         private void SpawnActualTree()
         {
-            var instance = treeScene.Instance() as ActualTree;
+            var instance = actualTreeScene.Instance() as ActualTree;
             instance.Position = spawnTreeNodes[data.Trees.Count].Position;
             data.Trees.Add(instance);
             AddChild(instance);
@@ -60,7 +70,12 @@ namespace LD52.Scripts
             instance.Position = new Vector2(100, 100);
             instance.OnSkritekMoved += HandleSkritekMoved;
             instance.OnSkritekHide += HandleSkritekHide;
+            instance.OnSkritekCaught += HandleSkritekCaught;
             AddChild(instance);
+        }
+        private void HandleSkritekCaught()
+        {
+            GetTree().ChangeSceneTo(mainScene);
         }
         private void HandleSkritekHide(bool hideStatus) => gameService.IsSkritekHidden = hideStatus;
 
