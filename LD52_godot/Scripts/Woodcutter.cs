@@ -36,6 +36,11 @@ public class Woodcutter : Node2D
             tree.RegisterWoodcutter(this);
             IsCutting = tree;
         }
+
+        if (collider?.GetParent() is Projectile projectile)
+        {
+            HitByProjectile();
+        }
     }
 
     public void OnAreaExit(Node collider)

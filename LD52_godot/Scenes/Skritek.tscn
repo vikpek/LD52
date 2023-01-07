@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Art/Animations/Character/character4.png" type="Texture" id=1]
 [ext_resource path="res://Art/Animations/Character/character1.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Art/Animations/Character/character2.png" type="Texture" id=5]
 [ext_resource path="res://Art/Animations/Character/character6.png" type="Texture" id=6]
 [ext_resource path="res://Scripts/Skritek.cs" type="Script" id=7]
+[ext_resource path="res://Art/dpcomic.ttf" type="DynamicFontData" id=8]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -18,8 +19,12 @@ animations = [ {
 
 [sub_resource type="CircleShape2D" id=2]
 
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 8 )
+
 [node name="Skritek" type="Node2D"]
 position = Vector2( -1, -1 )
+scale = Vector2( 2, 2 )
 script = ExtResource( 7 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -32,3 +37,10 @@ animation = "run"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionArea"]
 scale = Vector2( 0.560001, 0.560001 )
 shape = SubResource( 2 )
+
+[node name="Shout" type="Label" parent="."]
+margin_left = -14.0
+margin_top = -22.0
+margin_right = 26.0
+margin_bottom = -6.0
+custom_fonts/font = SubResource( 3 )

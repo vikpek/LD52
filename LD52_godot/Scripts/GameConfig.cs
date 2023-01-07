@@ -9,5 +9,6 @@
         public static readonly int maxConcurrentBushes = 3;
 
         public static float StunDuration = 2f;
+        public static float CollisionDuration = 0.2f;
     }
 }

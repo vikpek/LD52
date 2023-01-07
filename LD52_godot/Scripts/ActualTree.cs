@@ -8,9 +8,8 @@ public class ActualTree : Node2D
     private ProgressBar progressBar;
     private Label healthDebug;
     private Label registeredWoodcuttersDebug;
+    private Sprite sprite;
 
-    [Export]
-    private int _bounceDirection = 1;
 
     private bool cutDown = false;
     public bool CutDown => cutDown;
@@ -20,6 +19,7 @@ public class ActualTree : Node2D
     {
         healthDebug = GetNode<Label>("Health");
         progressBar = GetNode<ProgressBar>("ProgressBar");
+        sprite = GetNode<Sprite>("Sprite");
         progressBar.PercentVisible = false;
         progressBar.MaxValue = health;
         progressBar.MinValue = 0;
@@ -40,8 +40,8 @@ public class ActualTree : Node2D
 
         if (health <= 0)
         {
+            sprite.Texture = ResourceLoader.Load("res://Art/stump_01.png") as Texture;
             cutDown = true;
-
         }
     }
 }

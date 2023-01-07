@@ -55,9 +55,13 @@ namespace LD52.Scripts
         public override void _Process(float delta)
         {
             data.Trees.RemoveAll(tree => tree.CutDown);
+            if (data.Trees.Count <= 0)
+                HandleDefeat();
             scoreService.IncrementScore();
             if (labelScore != null)
                 labelScore.Text = scoreService.Score.ToString();
+
+
         }
 
         private void SpawnBushes()
@@ -85,6 +89,10 @@ namespace LD52.Scripts
             AddChild(instance);
         }
         private void HandleSkritekCaught()
+        {
+            HandleDefeat();
+        }
+        private void HandleDefeat()
         {
             GetTree().ChangeSceneTo(mainScene);
         }

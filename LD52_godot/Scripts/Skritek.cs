@@ -1,5 +1,6 @@
 using System;
 using Godot;
+using LD52.Scripts;
 public class Skritek : Node2D
 {
     public event Action<Vector2> OnSkritekMoved = delegate { };
@@ -8,10 +9,13 @@ public class Skritek : Node2D
 
     private PackedScene projectileScene;
     private AnimatedSprite animatedSprite;
+    private Label shout;
+    private bool setBack = false;
     public override void _Ready()
     {
         animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
         projectileScene = GD.Load<PackedScene>("res://Scenes/Projectile.tscn");
+        shout = GetNode<Label>("Shout");
 
         var area = GetNode<Area2D>("CollisionArea");
         if (area is null)
@@ -29,6 +33,10 @@ public class Skritek : Node2D
         if (collider?.GetParent() is Woodcutter)
             OnSkritekCaught();
 
+        if (collider?.GetParent() is ActualTree || collider?.GetParent() is Game)
+        {
+            RanIntoObstacle();
+        }
     }
 
     public void OnAreaExit(Node collider)
@@ -39,9 +47,19 @@ public class Skritek : Node2D
 
 
 
+    private Vector2 moveDirection;
+    private Vector2 velocity;
+    private Vector2 previousPosition;
     public override void _Process(float delta)
     {
-        Vector2 moveDirection = new Vector2(0, 0);
+        if (setBack)
+        {
+            Position += -velocity.Normalized();
+            GD.Print(velocity.Normalized() + " :: " + -velocity.Normalized());
+            return;
+        }
+
+        moveDirection = new Vector2(0, 0);
         if (Input.IsKeyPressed((int)KeyList.W))
             moveDirection.y--;
         if (Input.IsKeyPressed((int)KeyList.S))
@@ -58,8 +76,10 @@ public class Skritek : Node2D
             return;
         }
 
+        GD.Print("move: " + moveDirection);
         Position += moveDirection.Normalized() * 3;
-
+        velocity = Position - previousPosition;
+        previousPosition = Position;
         OnSkritekMoved(Position);
         animatedSprite.Play("run");
     }
@@ -80,5 +100,31 @@ public class Skritek : Node2D
         projectile.Position = Position;
         GetParent()?.AddChild(projectile);
         GetTree()?.SetInputAsHandled();
+    }
+
+    private Timer timer;
+    private void RanIntoObstacle()
+    {
+        setBack = true;
+        shout.Text = "Ouch!";
+        shout.RectPosition.Rotated(0);
+        timer = new Timer();
+        animatedSprite.Stop();
+        AddChild(timer);
+        timer.Autostart = true;
+        timer.WaitTime = GameConfig.CollisionDuration;
+        timer.Connect("timeout", this, "OnTimeout");
+        timer.Start();
+    }
+
+    public void OnTimeout()
+    {
+        setBack = false;
+        if (timer == null)
+            return;
+        shout.Text = "";
+        timer.Stop();
+        timer.Disconnect("timeout", this, "OnTimeout");
+        timer = null;
     }
 }
