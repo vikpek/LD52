@@ -4,6 +4,7 @@ namespace LD52.Scripts
     public class GameService
     {
         public Vector2 lastKnownSkritekPosition { get; set; }
+        public bool IsSkritekHidden { get; set; }
 
         public bool CanSeeSkritek(Vector2 position)
         {

@@ -43,7 +43,6 @@ namespace LD52.Scripts
         private void OnSkritekMoved(Vector2 position)
         {
             gameService.lastKnownSkritekPosition = position;
-            GD.Print(gameService.lastKnownSkritekPosition);
         }
     }
 }

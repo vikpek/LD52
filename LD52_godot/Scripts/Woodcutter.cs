@@ -26,8 +26,6 @@ public class Woodcutter : Node2D
     public override void _Process(float delta)
     {
         // if sees skritek -> move there
-
-
         if (gameService.CanSeeSkritek(GlobalPosition))
         {
             Position += gameService.GetDirectionToSkritek(GlobalPosition);
@@ -38,7 +36,5 @@ public class Woodcutter : Node2D
         {
             animatedSprite.Stop();
         }
-
-        //
     }
 }
