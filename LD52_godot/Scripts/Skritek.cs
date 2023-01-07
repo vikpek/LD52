@@ -1,5 +1,6 @@
+using System;
 using Godot;
-public class Player : Node2D
+public class Skritek : Node2D
 {
     private PackedScene projectileScene;
     private AnimatedSprite animatedSprite;
@@ -8,6 +9,8 @@ public class Player : Node2D
         animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
         projectileScene = GD.Load<PackedScene>("res://Scenes/Projectile.tscn");
     }
+
+    public event Action<Vector2> OnSkritekMoved = delegate { };
     public override void _Process(float delta)
     {
         Vector2 moveDirection = new Vector2(0, 0);
@@ -28,6 +31,8 @@ public class Player : Node2D
         }
 
         Position += moveDirection.Normalized() * 3;
+
+        OnSkritekMoved(Position);
         animatedSprite.Play("run");
     }
 

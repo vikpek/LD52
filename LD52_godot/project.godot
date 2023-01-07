@@ -14,6 +14,19 @@ config/name="LD52"
 run/main_scene="res://Scenes/Main.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=1600
+window/size/height=800
+window/size/test_width=1728
+window/size/test_height=972
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
+[editor_plugins]
+
+enabled=PoolStringArray(  )
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
