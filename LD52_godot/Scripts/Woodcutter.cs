@@ -31,10 +31,14 @@ public class Woodcutter : Node2D
             Position += gameService.GetDirectionToSkritek(GlobalPosition);
             Rotation = gameService.GetDirectionToSkritek(GlobalPosition).Angle();
             animatedSprite.Play("run");
+            if (gameService.ReachedSkritek(GlobalPosition))
+            {
+                animatedSprite.Stop();
+            }
+            return;
         }
-        if (gameService.ReachedSkritek(GlobalPosition))
-        {
-            animatedSprite.Stop();
-        }
+
+        Position += gameService.GetDirectionToClosestTree(GlobalPosition);
+        // todo: if collides with tree area -> start cuttingds
     }
 }

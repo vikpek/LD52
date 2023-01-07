@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Godot;
 namespace LD52.Scripts
 {
@@ -10,19 +9,15 @@ namespace LD52.Scripts
         private PackedScene treeScene;
         private PackedScene bushScene;
 
-        private List<Woodcutter> woodcutters = new List<Woodcutter>();
-
         private List<Node2D> spawnTreeNodes = new List<Node2D>();
         private List<Node2D> spawnBushNodes = new List<Node2D>();
 
-        private List<ActualTree> trees = new List<ActualTree>();
-        private List<Bush> bushes = new List<Bush>();
-
-
         private GameService gameService;
+        private GameData data;
         public override void _Ready()
         {
-            gameService = new GameService();
+            data = new GameData();
+            gameService = new GameService(data);
 
             SpawnSkritek();
             SpawnWoodcutters();
@@ -37,25 +32,25 @@ namespace LD52.Scripts
 
 
             treeScene = GD.Load<PackedScene>("res://Scenes/ActualTree.tscn");
-            while (trees.Count <= GameConfig.maxConcurrentTrees)
+            while (data.Trees.Count <= GameConfig.maxConcurrentTrees)
                 SpawnActualTree();
 
             bushScene = GD.Load<PackedScene>("res://Scenes/Bush.tscn");
-            while (bushes.Count <= GameConfig.maxConcurrentBushes)
+            while (data.Bushes.Count <= GameConfig.maxConcurrentBushes)
                 SpawnBushes();
         }
         private void SpawnBushes()
         {
             var instance = bushScene.Instance() as Bush;
-            instance.Position = spawnBushNodes[bushes.Count].Position;
-            bushes.Add(instance);
+            instance.Position = spawnBushNodes[data.Bushes.Count].Position;
+            data.Bushes.Add(instance);
             AddChild(instance);
         }
         private void SpawnActualTree()
         {
             var instance = treeScene.Instance() as ActualTree;
-            instance.Position = spawnTreeNodes[trees.Count].Position;
-            trees.Add(instance);
+            instance.Position = spawnTreeNodes[data.Trees.Count].Position;
+            data.Trees.Add(instance);
             AddChild(instance);
         }
         private void SpawnSkritek()
@@ -67,10 +62,7 @@ namespace LD52.Scripts
             instance.OnSkritekHide += HandleSkritekHide;
             AddChild(instance);
         }
-        private void HandleSkritekHide(bool hideStatus)
-        {
-            GD.Print($"Skritek hidden={hideStatus}");
-        }
+        private void HandleSkritekHide(bool hideStatus) => gameService.IsSkritekHidden = hideStatus;
 
         private void SpawnWoodcutters()
         {
@@ -78,7 +70,7 @@ namespace LD52.Scripts
             var instance = woodcutterScene.Instance() as Woodcutter;
             instance.Position = new Vector2(300, 300);
             instance.Initialize(gameService);
-            woodcutters.Add(instance);
+            data.Woodcutters.Add(instance);
             AddChild(instance);
         }
 
