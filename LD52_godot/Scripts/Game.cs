@@ -16,12 +16,18 @@ namespace LD52.Scripts
 
         private GameService gameService;
         private GameData data;
+        private ScoreService scoreService;
+
+        private Label labelScore;
 
         public event Action<GameResult> OnGameResult = delegate { };
         public override void _Ready()
         {
+            labelScore = GetNode<Label>("Score");
+
             data = new GameData();
             gameService = new GameService(data);
+            scoreService = new ScoreService();
 
             SpawnSkritek();
             SpawnWoodcutters();
@@ -46,8 +52,13 @@ namespace LD52.Scripts
             mainScene = GD.Load<PackedScene>("res://Scenes/Main.tscn");
         }
 
-        public override void _Process(float delta) =>
+        public override void _Process(float delta)
+        {
             data.Trees.RemoveAll(tree => tree.CutDown);
+            scoreService.IncrementScore();
+            if (labelScore != null)
+                labelScore.Text = scoreService.Score.ToString();
+        }
 
         private void SpawnBushes()
         {
