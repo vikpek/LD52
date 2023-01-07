@@ -8,9 +8,30 @@ public class Skritek : Node2D
     {
         animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
         projectileScene = GD.Load<PackedScene>("res://Scenes/Projectile.tscn");
+        
+        var area = GetNode<Area2D>("CollisionArea");
+        if (area is null)
+            return;
+
+        area.Connect("area_entered", this, "OnAreaEntered");
+        area.Connect("area_exited", this, "OnAreaExit");
+    }
+
+    public void OnAreaEntered(Node collider)
+    {
+        if (collider?.GetParent() is Bush)
+            OnSkritekHide(true);
+    }
+
+    public void OnAreaExit(Node collider)
+    {
+        if (collider?.GetParent() is Bush)
+            OnSkritekHide(false);
     }
 
     public event Action<Vector2> OnSkritekMoved = delegate { };
+    public event Action<bool> OnSkritekHide = delegate { };
+
     public override void _Process(float delta)
     {
         Vector2 moveDirection = new Vector2(0, 0);

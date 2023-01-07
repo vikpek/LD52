@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Art/Animations/Character/character4.png" type="Texture" id=1]
 [ext_resource path="res://Art/Animations/Character/character1.png" type="Texture" id=2]
@@ -16,6 +16,8 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="CircleShape2D" id=2]
+
 [node name="Skritek" type="Node2D"]
 position = Vector2( -1, -1 )
 script = ExtResource( 7 )
@@ -24,3 +26,9 @@ script = ExtResource( 7 )
 rotation = -1.57079
 frames = SubResource( 1 )
 animation = "run"
+
+[node name="CollisionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionArea"]
+scale = Vector2( 0.560001, 0.560001 )
+shape = SubResource( 2 )
