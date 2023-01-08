@@ -1,5 +1,6 @@
 using System;
 using Godot;
+using LD52.Scripts;
 public class GameOver : Node2D
 {
 
@@ -48,12 +49,15 @@ public class GameOver : Node2D
             case Global.GameOutcome.None:
                 break;
             case Global.GameOutcome.ForestCutDown:
+                global.PlaySound(GameConfig.SFXDefeat);
                 mainMessage.Text = GameOverMessage_ForestCutDown;
                 break;
             case Global.GameOutcome.SkritekCaught:
+                global.PlaySound(GameConfig.SFXCaught);
                 mainMessage.Text = GameOverMessage_Caught;
                 break;
             case Global.GameOutcome.SkritekWon:
+                global.PlaySound(GameConfig.SFXVictory);
                 mainMessage.Text = GameOverMessage_Victory;
                 break;
         }

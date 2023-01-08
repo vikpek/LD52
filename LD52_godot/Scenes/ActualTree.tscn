@@ -47,3 +47,5 @@ margin_bottom = -26.0
 custom_styles/fg = ExtResource( 4 )
 custom_styles/bg = ExtResource( 3 )
 percent_visible = false
+
+[node name="AudioPlayer" type="AudioStreamPlayer2D" parent="."]

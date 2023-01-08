@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 namespace LD52.Scripts
 {
@@ -26,12 +27,15 @@ namespace LD52.Scripts
         private Label labelScore;
         private Label labelAmmo;
 
+        private AudioStreamPlayer2D audioPlayer;
+
         public event Action<GameResult> OnGameResult = delegate { };
         public override void _Ready()
         {
             global = (Global)GetNode("/root/Global");
             labelScore = GetNode<Label>("Score");
             labelAmmo = GetNode<Label>("Ammo");
+            audioPlayer = GetNode<AudioStreamPlayer2D>("AudioPlayer");
 
             data = new GameData();
             gameService = new GameService(data);
@@ -103,6 +107,14 @@ namespace LD52.Scripts
 
         public void OnUpdate()
         {
+            if (data.Trees.Any(tree => tree.RegisteredWoodcutterCount > 0))
+            {
+                if (audioPlayer.Stream == null)
+                    audioPlayer.Stream = GD.Load(GameConfig.SFXChop) as AudioStream;
+                audioPlayer.Play();
+            }
+
+
             if (data.Woodcutters.Count <= GameConfig.maxConcurrentWoodcutters)
                 if (data.Woodcutters.Count < 1)
                 {
@@ -114,7 +126,10 @@ namespace LD52.Scripts
                         SpawnWoodcutter();
                 }
             if (gameService.IsSkritekHidden)
-                ammoService.AddAmmo();
+            {
+                if (ammoService.AddAmmo())
+                    global.PlaySound(GameConfig.SFXNewAmmo);
+            }
 
         }
 

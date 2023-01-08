@@ -12,11 +12,17 @@ public class Skritek : Node2D
     private Label shout;
     private bool setBack = false;
 
+    private AudioStreamPlayer2D audioPlayer;
+
     private AmmoService ammoService;
+    private Global global;
     public override void _Ready()
     {
+        global = (Global)GetNode("/root/Global");
         animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
         projectileScene = GD.Load<PackedScene>("res://Scenes/Projectile.tscn");
+        audioPlayer = GetNode<AudioStreamPlayer2D>("AudioPlayer");
+
         shout = GetNode<Label>("Shout");
 
         var area = GetNode<Area2D>("CollisionArea");
@@ -34,7 +40,9 @@ public class Skritek : Node2D
     public void OnAreaEntered(Node collider)
     {
         if (collider?.GetParent() is Bush)
+        {   global.PlaySound(GameConfig.SFXHidden);
             OnSkritekHide(true);
+        }
 
         if (collider?.GetParent() is Woodcutter)
             OnSkritekCaught();
@@ -104,6 +112,8 @@ public class Skritek : Node2D
         if(ammoService.CurrentAmmo <=0)
             return;
 
+        audioPlayer.Stream = GD.Load(GameConfig.SFXThrow) as AudioStream;
+        audioPlayer.Play();
         ammoService.Used();
         projectile.Rotation = Rotation;
         projectile.Position = Position;
@@ -114,6 +124,8 @@ public class Skritek : Node2D
     private Timer timer;
     private void RanIntoObstacle()
     {
+        audioPlayer.Stream = GD.Load(GameConfig.SFXBounce) as AudioStream;
+        audioPlayer.Play();
         setBack = true;
         shout.Text = "Ouch!";
         shout.RectPosition.Rotated(0);

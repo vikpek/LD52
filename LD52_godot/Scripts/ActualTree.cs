@@ -11,12 +11,15 @@ public class ActualTree : Node2D
     private Sprite sprite;
 
 
+
     private bool destroyed = false;
     public bool Destroyed => destroyed;
 
     private List<Woodcutter> registeredWoodcutters = new List<Woodcutter>();
+    public int RegisteredWoodcutterCount => registeredWoodcutters.Count;
     public override void _Ready()
     {
+
         healthDebug = GetNode<Label>("Health");
         progressBar = GetNode<ProgressBar>("ProgressBar");
         sprite = GetNode<Sprite>("Sprite");

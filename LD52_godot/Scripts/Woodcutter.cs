@@ -6,6 +6,7 @@ public class Woodcutter : Node2D
     private GameService gameService;
 
     private Label shout;
+    private AudioStreamPlayer2D audioPlayer;
 
     private bool isStunned = false;
     public bool IsStunned => isStunned;
@@ -18,6 +19,7 @@ public class Woodcutter : Node2D
     private AnimatedSprite animatedSprite;
     public override void _Ready()
     {
+        audioPlayer = GetNode<AudioStreamPlayer2D>("AudioPlayer");
         animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
         shout = GetNode<Label>("Shout");
 
@@ -40,6 +42,8 @@ public class Woodcutter : Node2D
         if (collider?.GetParent() is Projectile projectile)
         {
             HitByProjectile();
+            audioPlayer.Stream = GD.Load(GameConfig.SFXHit) as AudioStream;
+            audioPlayer.Play();
         }
     }
 
@@ -96,7 +100,7 @@ public class Woodcutter : Node2D
     public void OnTimeout()
     {
         isStunned = false;
-        if(timer == null)
+        if (timer == null)
             return;
         shout.Text = "";
         timer.Stop();

@@ -364,3 +364,6 @@ shape = SubResource( 4 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D4"]
 position = Vector2( 811, 196 )
 shape = SubResource( 4 )
+
+[node name="AudioPlayer" type="AudioStreamPlayer2D" parent="."]
+rotation = -1.42683

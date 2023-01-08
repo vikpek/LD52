@@ -1,7 +1,7 @@
-using Godot;
 using System;
 using System.Collections.Generic;
-
+using Godot;
+using LD52.Scripts;
 public class Global : Node2D
 {
     public enum GameOutcome
@@ -12,11 +12,19 @@ public class Global : Node2D
         SkritekWon
     }
 
+
+    private AudioStreamPlayer2D audioPlayer;
+    private AudioStreamPlayer2D musicPlayer;
     private List<int> ShownTrivias = new List<int>();
 
     public override void _Ready()
     {
+        audioPlayer = GetNode<AudioStreamPlayer2D>("AudioPlayer");
+        musicPlayer = GetNode<AudioStreamPlayer2D>("MusicPlayer");
         InitializeTrivias();
+
+        musicPlayer.Stream = GD.Load(GameConfig.MusicGame) as AudioStream;
+        musicPlayer.Play();
     }
     private void InitializeTrivias()
     {
@@ -45,6 +53,13 @@ public class Global : Node2D
         ShownTrivias.Add(rndIndx);
         return $"Did you know?" + "\n" +
                trivias[rndIndx] + "\n" +
-               $"From the Secrets of Skriteks ({rndIndx+1}/{trivias.Count})";
+               $"From the Secrets of Skriteks ({rndIndx + 1}/{trivias.Count})";
     }
+
+    public void PlaySound(string path)
+    {
+        audioPlayer.Stream = GD.Load(path) as AudioStream;
+        audioPlayer.Play();
+    }
+
 }

@@ -6,10 +6,12 @@
         public int MaximumAmmo => maximumAmmo;
         private int currentAmmo = GameConfig.maxAmmo;
         public int CurrentAmmo => currentAmmo;
-        public void AddAmmo()
+        public bool AddAmmo()
         {
-            if (CurrentAmmo < MaximumAmmo)
-                currentAmmo = CurrentAmmo + 1;
+            if (CurrentAmmo >= MaximumAmmo)
+                return false;
+            currentAmmo = CurrentAmmo + 1;
+            return true;
         }
         public void Used()
         {
