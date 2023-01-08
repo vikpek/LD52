@@ -26,6 +26,7 @@ namespace LD52.Scripts
 
         private Label labelScore;
         private Label labelAmmo;
+        private Button buttonBackToMain;
 
         private AudioStreamPlayer2D audioPlayer;
 
@@ -36,6 +37,10 @@ namespace LD52.Scripts
             labelScore = GetNode<Label>("Score");
             labelAmmo = GetNode<Label>("Ammo");
             audioPlayer = GetNode<AudioStreamPlayer2D>("AudioPlayer");
+            buttonBackToMain = GetNode<Button>("BackToMain");
+
+            buttonBackToMain.Connect("pressed", this, "OnBackToMain");
+
 
             data = new GameData();
             gameService = new GameService(data);
@@ -74,6 +79,9 @@ namespace LD52.Scripts
         }
         public override void _Process(float delta)
         {
+            if (Input.IsKeyPressed((int)KeyList.Escape))
+                OnBackToMain();
+
             List<Hut> destroyedHuts = data.Huts.FindAll(hut => hut.Destroyed);
             foreach (Hut destroyedHut in destroyedHuts)
             {
@@ -100,6 +108,8 @@ namespace LD52.Scripts
 
             labelAmmo.Text = $"{ammoService.CurrentAmmo}/{ammoService.MaximumAmmo}";
         }
+
+        public void OnBackToMain() => GetTree().ChangeSceneTo(mainScene);
 
         private Timer timer;
         public void StartSlowUpdate()
