@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/hit_miss.wav-c3e7d4bff852f9f294912f8fed5154ab.sample"
+
+[deps]
+
+source_file="res://SFX/hit_miss.wav"
+dest_files=[ "res://.import/hit_miss.wav-c3e7d4bff852f9f294912f8fed5154ab.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
