@@ -26,7 +26,7 @@ public class Hut : Node2D
         progressBar.Value = health;
         if (health <= 0)
         {
-            sprite.Texture = ResourceLoader.Load("res://Art/stump_01.png") as Texture;
+            sprite.Texture = ResourceLoader.Load("res://Art/house-destroyed.png") as Texture;
             destroyed = true;
         }
     }

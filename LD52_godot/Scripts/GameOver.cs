@@ -13,6 +13,8 @@ public class GameOver : Node2D
     private Label lastScore;
     private Label highScore;
 
+    private Sprite outcomeSprite;
+
     private Button startGameButton;
     private Button showTutorialButton;
     private Button backToMainButton;
@@ -23,6 +25,7 @@ public class GameOver : Node2D
         global = (Global)GetNode("/root/Global");
         gameScene = GD.Load<PackedScene>("res://Scenes/Game.tscn");
         tutorial = GD.Load<PackedScene>("res://Scenes/Tutorial.tscn");
+        outcomeSprite = GetNode<Sprite>("OutcomeSprite");
 
         mainScene = GD.Load<PackedScene>("res://Scenes/Main.tscn");
         backToMainButton = GetNode<Button>("ButtonMain");
@@ -33,7 +36,6 @@ public class GameOver : Node2D
 
         showTutorialButton = GetNode<Button>("ShowTutorial");
         showTutorialButton.Connect("pressed", this, "OnShowTutorial");
-
 
         mainMessage = GetNode<Label>("MainMessage");
         triviaMessage = GetNode<Label>("TriviaMessage");
@@ -51,12 +53,15 @@ public class GameOver : Node2D
             case Global.GameOutcome.ForestCutDown:
                 global.PlaySound(GameConfig.SFXDefeat);
                 mainMessage.Text = GameOverMessage_ForestCutDown;
+                outcomeSprite.Texture = ResourceLoader.Load("res://Art/skritek-sad.png") as Texture;
                 break;
             case Global.GameOutcome.SkritekCaught:
                 global.PlaySound(GameConfig.SFXCaught);
+                outcomeSprite.Texture = ResourceLoader.Load("res://Art/skritek-caged.png") as Texture;
                 mainMessage.Text = GameOverMessage_Caught;
                 break;
             case Global.GameOutcome.SkritekWon:
+                outcomeSprite.Texture = ResourceLoader.Load("res://Art/skritek-happy.png") as Texture;
                 global.PlaySound(GameConfig.SFXVictory);
                 mainMessage.Text = GameOverMessage_Victory;
                 break;

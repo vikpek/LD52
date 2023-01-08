@@ -5,12 +5,21 @@
 [ext_resource path="res://Scenes/Tres/ActualTree_ProgressBar_BG.tres" type="StyleBox" id=3]
 [ext_resource path="res://Scenes/Tres/ActualTree_ProgressBar_FG.tres" type="StyleBox" id=4]
 
-[sub_resource type="CircleShape2D" id=2]
-radius = 16.7199
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 10 )
 
 [node name="ActualTree" type="Node2D"]
 scale = Vector2( 1.5, 1.5 )
 script = ExtResource( 2 )
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+margin_left = -17.3333
+margin_top = 30.0
+margin_right = 16.6667
+margin_bottom = 37.0
+custom_styles/fg = ExtResource( 4 )
+custom_styles/bg = ExtResource( 3 )
+percent_visible = false
 
 [node name="Sprite" type="Sprite" parent="."]
 z_index = 1
@@ -20,8 +29,8 @@ texture = ExtResource( 1 )
 position = Vector2( -32, -33 )
 
 [node name="ColliderBox2D" type="CollisionShape2D" parent="CollisionArea"]
-position = Vector2( 32.6667, 43.6667 )
-shape = SubResource( 2 )
+position = Vector2( 31.3333, 42.3333 )
+shape = SubResource( 1 )
 
 [node name="Health" type="Label" parent="."]
 visible = false
@@ -38,14 +47,5 @@ margin_top = 1.0
 margin_right = 43.0
 margin_bottom = 15.0
 text = "000"
-
-[node name="ProgressBar" type="ProgressBar" parent="."]
-margin_left = -17.0
-margin_top = -40.0
-margin_right = 17.0
-margin_bottom = -26.0
-custom_styles/fg = ExtResource( 4 )
-custom_styles/bg = ExtResource( 3 )
-percent_visible = false
 
 [node name="AudioPlayer" type="AudioStreamPlayer2D" parent="."]

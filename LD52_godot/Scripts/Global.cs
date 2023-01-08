@@ -14,13 +14,13 @@ public class Global : Node2D
 
 
     private AudioStreamPlayer2D audioPlayer;
-    private AudioStreamPlayer2D musicPlayer;
+    private AudioStreamPlayer musicPlayer;
     private List<int> ShownTrivias = new List<int>();
 
     public override void _Ready()
     {
         audioPlayer = GetNode<AudioStreamPlayer2D>("AudioPlayer");
-        musicPlayer = GetNode<AudioStreamPlayer2D>("MusicPlayer");
+        musicPlayer = GetNode<AudioStreamPlayer>("MusicPlayer");
         InitializeTrivias();
 
         musicPlayer.Stream = GD.Load(GameConfig.MusicGame) as AudioStream;

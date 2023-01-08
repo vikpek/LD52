@@ -6,9 +6,9 @@ namespace LD52.Scripts
         public static readonly float SightingDistance = 1000;
         public static readonly float HitDistance = 10;
 
-        public static readonly int maxConcurrentTrees = 6;
-        public static readonly int maxConcurrentBushes = 3;
-        public static readonly int maxConcurrentWoodcutters = 3;
+        public static readonly int maxConcurrentTrees = 10;
+        public static readonly int maxConcurrentBushes = 2;
+        public static readonly int maxConcurrentWoodcutters = 2;
 
         public static float StunDuration = 2f;
         public static float CollisionDuration = 0.2f;

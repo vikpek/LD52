@@ -1,73 +1,104 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Art/dpcomic.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scripts/GameOver.cs" type="Script" id=2]
+[ext_resource path="res://Art/gameover-menu.png" type="Texture" id=3]
+[ext_resource path="res://Art/skritek-happy.png" type="Texture" id=4]
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 32
+font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=4]
 font_data = ExtResource( 1 )
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 2 )
 
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 400, 200 )
+texture = ExtResource( 3 )
+
 [node name="MainMessage" type="Label" parent="."]
-margin_left = 11.0
-margin_top = 34.0
-margin_right = 810.0
-margin_bottom = 136.0
-custom_fonts/font = SubResource( 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 32.0
+margin_top = 55.0
+margin_right = 752.0
+margin_bottom = 184.0
+custom_colors/font_color = Color( 0.0588235, 0.0588235, 0.0588235, 1 )
+custom_fonts/font = SubResource( 2 )
 text = "You got caught! The other Skriteks will laugh about you now while the villagers will keep you as a pet!
 
 Check the Tutorial for some hints!"
 align = 1
 valign = 1
+autowrap = true
 
 [node name="LastScore" type="Label" parent="."]
-margin_left = 312.0
-margin_right = 485.0
+margin_left = 264.0
+margin_right = 549.0
 margin_bottom = 54.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "00000"
 align = 1
 valign = 1
 
 [node name="HighScore" type="Label" parent="."]
-margin_left = 544.0
-margin_right = 717.0
+margin_left = 584.0
+margin_right = 757.0
 margin_bottom = 54.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "00000"
 align = 1
 valign = 1
 
 [node name="TriviaMessage" type="Label" parent="."]
-margin_left = 11.0
-margin_top = 256.0
-margin_right = 810.0
-margin_bottom = 358.0
+margin_left = 288.0
+margin_top = 304.0
+margin_right = 752.0
+margin_bottom = 377.0
+custom_colors/font_color = Color( 0.670588, 0.0745098, 0.0745098, 1 )
 custom_fonts/font = SubResource( 1 )
 text = "You got caught! The other Skriteks will laugh about you now while the villagers will keep you as a pet!
 
 Check the Tutorial for some hints!"
 align = 1
 valign = 1
+autowrap = true
 
 [node name="ButtonMain" type="Button" parent="."]
 margin_left = 320.0
-margin_top = 224.0
+margin_top = 232.0
 margin_right = 511.0
-margin_bottom = 244.0
+margin_bottom = 254.0
+custom_fonts/font = SubResource( 4 )
 text = "Back To Main"
 
 [node name="StartGame" type="Button" parent="."]
 margin_left = 320.0
 margin_top = 200.0
 margin_right = 511.0
-margin_bottom = 220.0
+margin_bottom = 222.0
+custom_fonts/font = SubResource( 4 )
 text = "Restart"
 
 [node name="ShowTutorial" type="Button" parent="."]
 margin_left = 320.0
-margin_top = 176.0
+margin_top = 264.0
 margin_right = 511.0
-margin_bottom = 196.0
+margin_bottom = 286.0
+custom_fonts/font = SubResource( 4 )
 text = "Tutorial"
+
+[node name="OutcomeSprite" type="Sprite" parent="."]
+position = Vector2( 696, 224 )
+scale = Vector2( 2.125, 2.125 )
+texture = ExtResource( 4 )

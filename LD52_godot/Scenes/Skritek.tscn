@@ -30,6 +30,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=2]
+radius = 7.19843
 
 [sub_resource type="DynamicFont" id=3]
 font_data = ExtResource( 8 )

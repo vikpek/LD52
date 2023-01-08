@@ -64,7 +64,7 @@ namespace LD52.Scripts
                 SpawnActualTree();
 
             bushScene = GD.Load<PackedScene>("res://Scenes/Bush.tscn");
-            while (data.Bushes.Count <= GameConfig.maxConcurrentBushes)
+            while (data.Bushes.Count < GameConfig.maxConcurrentBushes)
                 SpawnBushes();
 
             mainScene = GD.Load<PackedScene>("res://Scenes/Main.tscn");
@@ -74,8 +74,15 @@ namespace LD52.Scripts
         }
         public override void _Process(float delta)
         {
-            data.Trees.RemoveAll(tree => tree.Destroyed);
+            List<Hut> destroyedHuts = data.Huts.FindAll(hut => hut.Destroyed);
+            foreach (Hut destroyedHut in destroyedHuts)
+            {
+                var spawnNode = spawnWoodcutterNodes.Find(node => node.Position == destroyedHut.Position);
+                spawnWoodcutterNodes.Remove(spawnNode);
+            }
+
             data.Huts.RemoveAll(hut => hut.Destroyed);
+            data.Trees.RemoveAll(tree => tree.Destroyed);
 
             if (data.Trees.Count <= 0)
             {
@@ -136,22 +143,30 @@ namespace LD52.Scripts
         private void SpawnBushes()
         {
             var instance = bushScene.Instance() as Bush;
-            instance.Position = spawnBushNodes[data.Bushes.Count].Position;
             data.Bushes.Add(instance);
+
+            int indx = rnd.Next(0, spawnBushNodes.Count - 1);
+            instance.Position = spawnBushNodes[indx].Position;
+            spawnBushNodes.RemoveAt(indx);
+
             AddChild(instance);
         }
         private void SpawnActualTree()
         {
             var instance = actualTreeScene.Instance() as ActualTree;
-            instance.Position = spawnTreeNodes[data.Trees.Count].Position;
             data.Trees.Add(instance);
+
+            int indx = rnd.Next(0, spawnTreeNodes.Count - 1);
+            instance.Position = spawnTreeNodes[indx].Position;
+            spawnTreeNodes.RemoveAt(indx);
+
             AddChild(instance);
         }
         private void SpawnSkritek()
         {
             skritekScene = GD.Load<PackedScene>("res://Scenes/Skritek.tscn");
             var instance = skritekScene.Instance() as Skritek;
-            instance.Position = new Vector2(100, 100);
+            instance.Position = new Vector2(400, 200);
             instance.Initialize(ammoService);
             instance.OnSkritekMoved += HandleSkritekMoved;
             instance.OnSkritekHide += HandleSkritekHide;

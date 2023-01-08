@@ -282,48 +282,72 @@ texture = ExtResource( 5 )
 [node name="SpawnTreeNodes" type="Node2D" parent="."]
 
 [node name="Spawn" type="Node2D" parent="SpawnTreeNodes"]
-position = Vector2( 186, 76 )
+position = Vector2( 322, 309 )
 
 [node name="Spawn2" type="Node2D" parent="SpawnTreeNodes"]
-position = Vector2( 114, 139 )
+position = Vector2( 421, 304 )
 
 [node name="Spawn3" type="Node2D" parent="SpawnTreeNodes"]
-position = Vector2( 244, 221 )
+position = Vector2( 492, 363 )
 
 [node name="Spawn4" type="Node2D" parent="SpawnTreeNodes"]
-position = Vector2( 127, 290 )
+position = Vector2( 77, 339 )
 
 [node name="Spawn5" type="Node2D" parent="SpawnTreeNodes"]
-position = Vector2( 608, 86 )
+position = Vector2( 593, 96 )
 
 [node name="Spawn6" type="Node2D" parent="SpawnTreeNodes"]
-position = Vector2( 536, 149 )
+position = Vector2( 507, 133 )
 
 [node name="Spawn7" type="Node2D" parent="SpawnTreeNodes"]
-position = Vector2( 666, 231 )
+position = Vector2( 423, 93 )
 
 [node name="Spawn8" type="Node2D" parent="SpawnTreeNodes"]
-position = Vector2( 549, 300 )
+position = Vector2( 64, 198 )
+
+[node name="Spawn13" type="Node2D" parent="SpawnTreeNodes"]
+position = Vector2( 64, 119 )
+
+[node name="Spawn17" type="Node2D" parent="SpawnTreeNodes"]
+position = Vector2( 121, 66 )
+
+[node name="Spawn18" type="Node2D" parent="SpawnTreeNodes"]
+position = Vector2( 355, 138 )
+
+[node name="Spawn19" type="Node2D" parent="SpawnTreeNodes"]
+position = Vector2( 605, 194 )
+
+[node name="Spawn20" type="Node2D" parent="SpawnTreeNodes"]
+position = Vector2( 741, 193 )
+
+[node name="Spawn14" type="Node2D" parent="SpawnTreeNodes"]
+position = Vector2( 331, 81 )
+
+[node name="Spawn15" type="Node2D" parent="SpawnTreeNodes"]
+position = Vector2( 508, 55 )
+
+[node name="Spawn16" type="Node2D" parent="SpawnTreeNodes"]
+position = Vector2( 505, 282 )
+
+[node name="Spawn9" type="Node2D" parent="SpawnTreeNodes"]
+position = Vector2( 314, 201 )
+
+[node name="Spawn10" type="Node2D" parent="SpawnTreeNodes"]
+position = Vector2( 216, 81 )
+
+[node name="Spawn11" type="Node2D" parent="SpawnTreeNodes"]
+position = Vector2( 590, 301 )
+
+[node name="Spawn12" type="Node2D" parent="SpawnTreeNodes"]
+position = Vector2( 653, 228 )
 
 [node name="SpawnBushNodes" type="Node2D" parent="."]
 
 [node name="Spawn" type="Node2D" parent="SpawnBushNodes"]
-position = Vector2( 395, 70 )
+position = Vector2( 738, 288 )
 
 [node name="Spawn2" type="Node2D" parent="SpawnBushNodes"]
-position = Vector2( 321, 327 )
-
-[node name="Spawn4" type="Node2D" parent="SpawnBushNodes"]
-position = Vector2( 46, 355 )
-
-[node name="Spawn3" type="Node2D" parent="SpawnBushNodes"]
-position = Vector2( 705, 299 )
-
-[node name="Spawn5" type="Node2D" parent="SpawnBushNodes"]
-position = Vector2( 740, 66 )
-
-[node name="Spawn6" type="Node2D" parent="SpawnBushNodes"]
-position = Vector2( 74, 45 )
+position = Vector2( 53, 55 )
 
 [node name="SpawnWoodcutterNodes" type="Node2D" parent="."]
 
@@ -331,7 +355,7 @@ position = Vector2( 74, 45 )
 position = Vector2( 187, 339 )
 
 [node name="Hut2" parent="SpawnWoodcutterNodes" instance=ExtResource( 4 )]
-position = Vector2( 668, 61 )
+position = Vector2( 710, 23 )
 
 [node name="TileMap" type="TileMap" parent="."]
 z_index = -1
