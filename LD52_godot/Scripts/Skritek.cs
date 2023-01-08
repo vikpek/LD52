@@ -79,7 +79,7 @@ public class Skritek : Node2D
         Rotation = (GetGlobalMousePosition() - GlobalPosition).Angle();
         if (moveDirection.x == 0 && moveDirection.y == 0)
         {
-            animatedSprite.Stop();
+            animatedSprite.Play("idle");
             return;
         }
 
