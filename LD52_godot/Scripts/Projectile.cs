@@ -32,5 +32,11 @@ public abstract class Projectile : Node2D
         {
             QueueFree();
         }
+
+        if (collider.GetParent() is Hut hut)
+        {
+            hut.AddDamage();
+            QueueFree();
+        }
     }
 }

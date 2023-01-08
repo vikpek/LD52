@@ -10,27 +10,35 @@ namespace LD52.Scripts
         private PackedScene actualTreeScene;
         private PackedScene bushScene;
         private PackedScene mainScene;
+        private PackedScene gameDefeatScene;
+
+        private Global global;
 
         private List<Node2D> spawnTreeNodes = new List<Node2D>();
         private List<Node2D> spawnBushNodes = new List<Node2D>();
+        private List<Node2D> spawnWoodcutterNodes = new List<Node2D>();
 
         private GameService gameService;
         private GameData data;
         private ScoreService scoreService;
+        private AmmoService ammoService;
 
         private Label labelScore;
+        private Label labelAmmo;
 
         public event Action<GameResult> OnGameResult = delegate { };
         public override void _Ready()
         {
+            global = (Global)GetNode("/root/Global");
             labelScore = GetNode<Label>("Score");
+            labelAmmo = GetNode<Label>("Ammo");
 
             data = new GameData();
             gameService = new GameService(data);
             scoreService = new ScoreService();
+            ammoService = new AmmoService();
 
             SpawnSkritek();
-            SpawnWoodcutters();
 
             var arr = GetNode("SpawnTreeNodes").GetChildren();
             foreach (Node2D spawnNode in arr)
@@ -40,6 +48,12 @@ namespace LD52.Scripts
             foreach (Node2D spawnNode in arr)
                 spawnBushNodes.Add(spawnNode);
 
+            arr = GetNode("SpawnWoodcutterNodes").GetChildren();
+            foreach (Node2D spawnNode in arr)
+            {
+                spawnWoodcutterNodes.Add(spawnNode);
+                data.Huts.Add(spawnNode as Hut);
+            }
 
             actualTreeScene = GD.Load<PackedScene>("res://Scenes/ActualTree.tscn");
             while (data.Trees.Count <= GameConfig.maxConcurrentTrees)
@@ -50,17 +64,57 @@ namespace LD52.Scripts
                 SpawnBushes();
 
             mainScene = GD.Load<PackedScene>("res://Scenes/Main.tscn");
-        }
+            gameDefeatScene = GD.Load<PackedScene>("res://Scenes/GameOver.tscn");
 
+            StartSlowUpdate();
+        }
         public override void _Process(float delta)
         {
-            data.Trees.RemoveAll(tree => tree.CutDown);
+            data.Trees.RemoveAll(tree => tree.Destroyed);
+            data.Huts.RemoveAll(hut => hut.Destroyed);
+
             if (data.Trees.Count <= 0)
-                HandleDefeat();
+            {
+                global.lastOutcome = Global.GameOutcome.ForestCutDown;
+                HandleGameOver();
+            }
+
+            if (data.Huts.Count <= 0)
+                HandleVictory();
+
             scoreService.IncrementScore();
             if (labelScore != null)
                 labelScore.Text = scoreService.Score.ToString();
 
+
+            labelAmmo.Text = $"{ammoService.CurrentAmmo}/{ammoService.MaximumAmmo}";
+        }
+
+        private Timer timer;
+        public void StartSlowUpdate()
+        {
+            timer = new Timer();
+            AddChild(timer);
+            timer.Autostart = true;
+            timer.WaitTime = GameConfig.UpdateInterval;
+            timer.Connect("timeout", this, "OnUpdate");
+            timer.Start();
+        }
+
+        public void OnUpdate()
+        {
+            if (data.Woodcutters.Count <= GameConfig.maxConcurrentWoodcutters)
+                if (data.Woodcutters.Count < 1)
+                {
+                    SpawnWoodcutter();
+                }
+                else
+                {
+                    if (rnd.Next(0, 10) == 3)
+                        SpawnWoodcutter();
+                }
+            if (gameService.IsSkritekHidden)
+                ammoService.AddAmmo();
 
         }
 
@@ -83,6 +137,7 @@ namespace LD52.Scripts
             skritekScene = GD.Load<PackedScene>("res://Scenes/Skritek.tscn");
             var instance = skritekScene.Instance() as Skritek;
             instance.Position = new Vector2(100, 100);
+            instance.Initialize(ammoService);
             instance.OnSkritekMoved += HandleSkritekMoved;
             instance.OnSkritekHide += HandleSkritekHide;
             instance.OnSkritekCaught += HandleSkritekCaught;
@@ -90,19 +145,36 @@ namespace LD52.Scripts
         }
         private void HandleSkritekCaught()
         {
-            HandleDefeat();
+            global.lastOutcome = Global.GameOutcome.SkritekCaught;
+            HandleGameOver();
         }
-        private void HandleDefeat()
+
+        private void HandleVictory()
         {
-            GetTree().ChangeSceneTo(mainScene);
+            global.lastOutcome = Global.GameOutcome.SkritekWon;
+            HandleGameOver();
+        }
+        private void HandleGameOver()
+        {
+            PersistScore();
+            GetTree().ChangeSceneTo(gameDefeatScene);
+        }
+        private void PersistScore()
+        {
+
+            global.LastScore = scoreService.Score;
+            if (global.LastScore > global.HighScore)
+                global.HighScore = global.LastScore;
         }
         private void HandleSkritekHide(bool hideStatus) => gameService.IsSkritekHidden = hideStatus;
 
-        private void SpawnWoodcutters()
+
+        private Random rnd = new Random();
+        private void SpawnWoodcutter()
         {
             woodcutterScene = GD.Load<PackedScene>("res://Scenes/Woodcutter.tscn");
             var instance = woodcutterScene.Instance() as Woodcutter;
-            instance.Position = new Vector2(300, 300);
+            instance.Position = spawnWoodcutterNodes[rnd.Next(0, spawnWoodcutterNodes.Count - 1)].Position;
             instance.Initialize(gameService);
             data.Woodcutters.Add(instance);
             AddChild(instance);

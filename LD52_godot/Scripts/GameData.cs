@@ -7,5 +7,6 @@ namespace LD52.Scripts
         public List<Woodcutter> Woodcutters { get; } = new List<Woodcutter>();
         public List<ActualTree> Trees { get; } = new List<ActualTree>();
         public List<Bush> Bushes { get; } = new List<Bush>();
+        public List<Hut> Huts { get; } = new List<Hut>();
     }
 }

@@ -11,8 +11,8 @@ public class ActualTree : Node2D
     private Sprite sprite;
 
 
-    private bool cutDown = false;
-    public bool CutDown => cutDown;
+    private bool destroyed = false;
+    public bool Destroyed => destroyed;
 
     private List<Woodcutter> registeredWoodcutters = new List<Woodcutter>();
     public override void _Ready()
@@ -41,7 +41,7 @@ public class ActualTree : Node2D
         if (health <= 0)
         {
             sprite.Texture = ResourceLoader.Load("res://Art/stump_01.png") as Texture;
-            cutDown = true;
+            destroyed = true;
         }
     }
 }

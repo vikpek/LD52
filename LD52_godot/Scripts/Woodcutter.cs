@@ -70,7 +70,7 @@ public class Woodcutter : Node2D
             return;
         }
 
-        if (IsCutting == null || IsCutting.CutDown)
+        if (IsCutting == null || IsCutting.Destroyed)
         {
             Position += gameService.GetDirectionToClosestTree(GlobalPosition);
             Rotation = gameService.GetDirectionToClosestTree(GlobalPosition).Angle();
@@ -96,6 +96,8 @@ public class Woodcutter : Node2D
     public void OnTimeout()
     {
         isStunned = false;
+        if(timer == null)
+            return;
         shout.Text = "";
         timer.Stop();
         timer.Disconnect("timeout", this, "OnTimeout");

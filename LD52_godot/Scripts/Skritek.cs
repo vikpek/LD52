@@ -11,6 +11,8 @@ public class Skritek : Node2D
     private AnimatedSprite animatedSprite;
     private Label shout;
     private bool setBack = false;
+
+    private AmmoService ammoService;
     public override void _Ready()
     {
         animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
@@ -25,6 +27,10 @@ public class Skritek : Node2D
         area.Connect("area_exited", this, "OnAreaExit");
     }
 
+    public void Initialize(AmmoService ammoServ)
+    {
+        this.ammoService = ammoServ;
+    }
     public void OnAreaEntered(Node collider)
     {
         if (collider?.GetParent() is Bush)
@@ -33,7 +39,9 @@ public class Skritek : Node2D
         if (collider?.GetParent() is Woodcutter)
             OnSkritekCaught();
 
-        if (collider?.GetParent() is ActualTree || collider?.GetParent() is Game)
+        if (collider?.GetParent() is ActualTree ||
+            collider?.GetParent() is Game ||
+            collider?.GetParent() is Hut)
         {
             RanIntoObstacle();
         }
@@ -55,7 +63,6 @@ public class Skritek : Node2D
         if (setBack)
         {
             Position += -velocity.Normalized();
-            GD.Print(velocity.Normalized() + " :: " + -velocity.Normalized());
             return;
         }
 
@@ -76,7 +83,6 @@ public class Skritek : Node2D
             return;
         }
 
-        GD.Print("move: " + moveDirection);
         Position += moveDirection.Normalized() * 3;
         velocity = Position - previousPosition;
         previousPosition = Position;
@@ -95,7 +101,10 @@ public class Skritek : Node2D
         Projectile projectile = (Projectile)projectileScene.Instance();
         if (projectile is null)
             return;
+        if(ammoService.CurrentAmmo <=0)
+            return;
 
+        ammoService.Used();
         projectile.Rotation = Rotation;
         projectile.Position = Position;
         GetParent()?.AddChild(projectile);

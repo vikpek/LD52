@@ -7,8 +7,12 @@
 
         public static readonly int maxConcurrentTrees = 6;
         public static readonly int maxConcurrentBushes = 3;
+        public static readonly int maxConcurrentWoodcutters = 3;
 
         public static float StunDuration = 2f;
         public static float CollisionDuration = 0.2f;
+        public static float UpdateInterval = 1f;
+        public static int maxAmmo = 5;
+        public static int projectileDamage = 250;
     }
 }

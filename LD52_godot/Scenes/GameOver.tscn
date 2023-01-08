@@ -1,3 +1,73 @@
-[gd_scene format=2]
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Art/dpcomic.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Scripts/GameOver.cs" type="Script" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 1 )
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="MainMessage" type="Label" parent="."]
+margin_left = 11.0
+margin_top = 34.0
+margin_right = 810.0
+margin_bottom = 136.0
+custom_fonts/font = SubResource( 1 )
+text = "You got caught! The other Skriteks will laugh about you now while the villagers will keep you as a pet!
+
+Check the Tutorial for some hints!"
+align = 1
+valign = 1
+
+[node name="LastScore" type="Label" parent="."]
+margin_left = 312.0
+margin_right = 485.0
+margin_bottom = 54.0
+custom_fonts/font = SubResource( 1 )
+text = "00000"
+align = 1
+valign = 1
+
+[node name="HighScore" type="Label" parent="."]
+margin_left = 544.0
+margin_right = 717.0
+margin_bottom = 54.0
+custom_fonts/font = SubResource( 1 )
+text = "00000"
+align = 1
+valign = 1
+
+[node name="TriviaMessage" type="Label" parent="."]
+margin_left = 11.0
+margin_top = 256.0
+margin_right = 810.0
+margin_bottom = 358.0
+custom_fonts/font = SubResource( 1 )
+text = "You got caught! The other Skriteks will laugh about you now while the villagers will keep you as a pet!
+
+Check the Tutorial for some hints!"
+align = 1
+valign = 1
+
+[node name="ButtonMain" type="Button" parent="."]
+margin_left = 320.0
+margin_top = 224.0
+margin_right = 511.0
+margin_bottom = 244.0
+text = "Back To Main"
+
+[node name="StartGame" type="Button" parent="."]
+margin_left = 320.0
+margin_top = 200.0
+margin_right = 511.0
+margin_bottom = 220.0
+text = "Restart"
+
+[node name="ShowTutorial" type="Button" parent="."]
+margin_left = 320.0
+margin_top = 176.0
+margin_right = 511.0
+margin_bottom = 196.0
+text = "Tutorial"
