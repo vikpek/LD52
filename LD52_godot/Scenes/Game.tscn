@@ -249,10 +249,10 @@ font_data = ExtResource( 3 )
 script = ExtResource( 2 )
 
 [node name="Score" type="Label" parent="."]
-margin_left = 172.0
-margin_top = 321.0
-margin_right = 632.0
-margin_bottom = 412.0
+margin_left = 260.0
+margin_top = 322.0
+margin_right = 543.0
+margin_bottom = 413.0
 size_flags_stretch_ratio = 0.0
 custom_colors/font_color = Color( 0.968627, 0.968627, 0.968627, 1 )
 custom_colors/font_outline_modulate = Color( 0.913725, 0.913725, 0.913725, 1 )
@@ -263,9 +263,9 @@ align = 1
 valign = 1
 
 [node name="Ammo" type="Label" parent="."]
-margin_left = 632.0
+margin_left = 587.0
 margin_top = 339.0
-margin_right = 714.0
+margin_right = 669.0
 margin_bottom = 394.0
 size_flags_stretch_ratio = 0.0
 custom_colors/font_color = Color( 0.968627, 0.968627, 0.968627, 1 )
@@ -277,7 +277,7 @@ align = 1
 valign = 1
 
 [node name="Projectile" type="Sprite" parent="Ammo"]
-position = Vector2( 118, 28 )
+position = Vector2( 174, 28 )
 rotation = 0.790731
 scale = Vector2( 7, 7 )
 texture = ExtResource( 5 )

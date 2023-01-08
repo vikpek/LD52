@@ -24,6 +24,7 @@ window/size/width=800
 window/size/height=400
 window/size/test_width=1728
 window/size/test_height=972
+mouse_cursor/custom_image="res://Art/cursor.png"
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 

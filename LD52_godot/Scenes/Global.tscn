@@ -1,11 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scripts/Global.cs" type="Script" id=1]
-[ext_resource path="res://Art/dpcomic.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Art/music_icon.png" type="Texture" id=3]
-
-[sub_resource type="DynamicFont" id=1]
-font_data = ExtResource( 2 )
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
@@ -16,8 +12,11 @@ script = ExtResource( 1 )
 volume_db = -5.824
 
 [node name="CheckButton" type="CheckButton" parent="."]
-margin_left = 640.0
-margin_right = 748.0
-margin_bottom = 40.0
-custom_fonts/font = SubResource( 1 )
+margin_left = 656.0
+margin_top = 8.0
+margin_right = 764.0
+margin_bottom = 48.0
+rect_scale = Vector2( 0.88, 0.88 )
 icon = ExtResource( 3 )
+flat = true
+align = 1

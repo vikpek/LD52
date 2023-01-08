@@ -133,13 +133,13 @@ namespace LD52.Scripts
 
 
             if (data.Woodcutters.Count <= GameConfig.maxConcurrentWoodcutters)
-                if (data.Woodcutters.Count < 1)
+                if (data.Woodcutters.Count < 2)
                 {
                     SpawnWoodcutter();
                 }
                 else
                 {
-                    if (rnd.Next(0, 10) == 3)
+                    if (rnd.Next(0, 8) == 3)
                         SpawnWoodcutter();
                 }
             if (gameService.IsSkritekHidden)

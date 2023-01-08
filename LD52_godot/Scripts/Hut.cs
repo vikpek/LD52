@@ -2,7 +2,7 @@ using Godot;
 using LD52.Scripts;
 public class Hut : Node2D
 {
-    private int health = 1000;
+    private int health = 5000;
     private ProgressBar progressBar;
     private Sprite sprite;
 

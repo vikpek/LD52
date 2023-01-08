@@ -1,6 +1,4 @@
 using Godot;
-using System;
-
 public class BackToMain : Node
 {
     private PackedScene mainScene;
@@ -10,6 +8,12 @@ public class BackToMain : Node
         mainScene = GD.Load<PackedScene>("res://Scenes/Main.tscn");
         backToMainButton = GetNode<Button>("ButtonMain");
         backToMainButton.Connect("pressed", this, "OnPressed");
+    }
+
+    public override void _Process(float delta)
+    {
+        if (Input.IsKeyPressed((int)KeyList.Escape))
+            OnPressed();
     }
 
     public void OnPressed()

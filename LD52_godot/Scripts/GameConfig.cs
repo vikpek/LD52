@@ -13,8 +13,8 @@ namespace LD52.Scripts
         public static float StunDuration = 2f;
         public static float CollisionDuration = 0.2f;
         public static float UpdateInterval = 1f;
-        public static int maxAmmo = 5;
-        public static int projectileDamage = 250;
+        public static int maxAmmo = 12;
+        public static int projectileDamage = 300;
 
         public static string SFXBounce = "res://SFX/bounce.wav";
         public static string SFXThrow = "res://SFX/throw.wav";
